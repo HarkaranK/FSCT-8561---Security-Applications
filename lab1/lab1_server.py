@@ -3,7 +3,7 @@ import socket
 serverPort = 12000
 password = "HELLO"
 
-
+# Creates a TCP socket, binds the socket and starts listening to all interfaces
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind(('', serverPort))
     s.listen()
@@ -13,13 +13,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print("Connected by", addr)
 
+        # Recives data from client with a max of 1024 bytes at a time
+        # Error handling if no data is sent
         while True:
             data = conn.recv(1024)
             if not data:
                 break
 
+            # Tracks if user is authorized or not
             authorized = False
 
+            # Until authorized while loop
             while not authorized:
 
                 print("Client said: " + data.decode())
@@ -34,7 +38,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 else:
                     conn.send("Error, that isn't a valid input\n".encode())
                     break
-            
+
+            # After authorized
             while authorized:
                 welcome_message = (
                     f"\nWelcome to the stateful server {username}, "
@@ -49,6 +54,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 data = conn.recv(1024)
                 data = data.decode().strip()
 
+                # If statements depending on the commands used
                 if len(data) > 128:
                     conn.sendall("You sent above the character limit".encode())
 
@@ -75,3 +81,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     conn.sendall("\nThat wasn't a valid input\n".encode())
 
             # conn.sendall("\n".encode())
+
