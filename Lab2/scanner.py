@@ -8,10 +8,12 @@ try:
     
     try:
         print("\nAdmin Scan has started\n")
-        nm.scan('127.0.0.1', '1-65535', timeout=300) # Will timeout if scan takes longer than 5 minutes
+        # nm.scan('127.0.0.1', '1-65535', timeout=300) # Will timeout if scan takes longer than 5 minutes
+        nm.scan('127.0.0.1', '20-1024', timeout=60) # Will timeout if scan takes longer than 1 minute
     except:
          print("There was a permission error or timeout, trying the permissionless version")
-         nm.scan('127.0.0.1', '1-65535', arguments='-sT', timeout=150) # -sT will allow non admin users to run the command, if scan takes longer than 2.5 minutes it times out
+        #  nm.scan('127.0.0.1', '1-65535', arguments='-sT', timeout=150) # -sT will allow non admin users to run the command, if scan takes longer than 2.5 minutes it times out
+         nm.scan('127.0.0.1', '20-1024', timeout=60) # Will timeout if scan takes longer than 1 minute
 
     nm.command_line() #Actually will perform the nmap scan
     nm.scaninfo() # shows nmap scan  information
@@ -44,3 +46,4 @@ except nmap.PortScannerError as e:
      print(f"Nmap Error: {e}") # Error handling if nmap isn't installed or accessible
 except Exception as e:
      print(f"An unexpected error occurred: {e}") # Other error handling
+
