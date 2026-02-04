@@ -15,18 +15,21 @@ hotp = pyotp.HOTP(shared_secret)
 
 # Password is no longer stored on server
 # It's stored in a password.txt, that is read and hashed on the server
-filename = "password.txt"
+# filename = "password.txt"
 n = 0
 
-try:
-    with open(filename, 'rb') as f:
-        passw = f.read()
-        h.update(passw)
-        hashpass = h.hexdigest()
+# try:
+#     with open(filename, 'rb') as f:
+#         passw = f.read()
+#         h.update(passw)
+#         hashpass = h.hexdigest()
 
-except FileNotFoundError:
-    print("File not found")
+# except FileNotFoundError:
+#     print("File not found")
 
+# password is stored as a hash
+# User input for password will be hashed and directly compared to see if hashes are the same
+hashpass = "0be64ae89ddd24e225434de95d501711339baeee18f009ba9b4369af27d30d60"
 
 
 
@@ -172,4 +175,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                         if errcount >= 5:
                             conn.send("Too many invalid inputs, disconnecting\n".encode())
                             conn.close()
+
                             break
